@@ -2,6 +2,13 @@ export interface GeocodedPlace {
   id: string;
   title: string;
   subtitle: string;
+  displayName: string;
+  category?: string;
+  type?: string;
+  country?: string;
+  state?: string;
+  county?: string;
+  postcode?: string;
   longitude: number;
   latitude: number;
 }
@@ -26,6 +33,8 @@ interface NominatimSearchResult {
   lat: string;
   lon: string;
   name?: string;
+  category?: string;
+  type?: string;
   address?: NominatimAddress;
 }
 
@@ -75,6 +84,13 @@ export async function searchPlaces(query: string, signal?: AbortSignal): Promise
         id: String(result.place_id),
         title,
         subtitle: buildSubtitle(result.address, result.display_name),
+        displayName: result.display_name,
+        category: result.category,
+        type: result.type,
+        country: result.address?.country,
+        state: result.address?.state,
+        county: result.address?.county,
+        postcode: result.address?.postcode,
         longitude: Number(result.lon),
         latitude: Number(result.lat),
       } satisfies GeocodedPlace;
