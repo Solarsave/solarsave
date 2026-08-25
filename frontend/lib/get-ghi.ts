@@ -1,6 +1,8 @@
 "use server";
 
-export async function getGHI() {
+import { GeocodedPlace } from "./geocoding";
+
+export async function getGHI(place: GeocodedPlace) {
   try {
     const fortyguard_url = "https://api.fortyguard.com/v1/env_params";
 
@@ -11,8 +13,8 @@ export async function getGHI() {
         "api-key": process.env.FORTYGUARD_API_KEY!,
       },
       body: JSON.stringify({
-        latitude: 40.7128,
-        longitude: -74.006,
+        latitude: place.latitude,
+        longitude: place.longitude,
         temperature: 10,
         date_time: {
           start_date: "2024-07-15",

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { searchPlaces, type GeocodedPlace } from "@/lib/geocoding";
 import { useMapLocation } from "@/components/map/location-context";
+import { LuSearch, LuX } from "react-icons/lu";
 
 export function AddressSearch() {
   const { resetLocation, selectedPlace, setLocation } = useMapLocation();
@@ -87,7 +88,9 @@ export function AddressSearch() {
     <div className="absolute left-4 top-4 z-20 w-[min(92vw,26rem)]">
       <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.18)]">
         <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2">
-          <span className="text-sm font-semibold text-slate-500">⌕</span>
+          <span className="text-sm font-semibold text-slate-500">
+            <LuSearch size={24} />
+          </span>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -132,11 +135,11 @@ export function AddressSearch() {
         {error ? <p className="mt-2 px-1 text-sm text-rose-600">{error}</p> : null}
 
         {selectedPlace ? (
-          <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+          <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 ">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-900">{selectedPlace.title}</p>
-                <p className="mt-1 text-sm leading-6 text-slate-500">{selectedPlace.subtitle}</p>
+                <p className="mt-1 text-sm leading-6 text-slate-500">{selectedPlace.displayName}</p>
               </div>
               <button
                 type="button"
@@ -144,37 +147,10 @@ export function AddressSearch() {
                 aria-label="Clear selected location"
                 className="rounded-full p-2 text-slate-400 transition hover:bg-slate-200 hover:text-slate-900"
               >
-                ×
+                <LuX />
               </button>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              {selectedPlace.category ? (
-                <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500">
-                  {selectedPlace.category}
-                </span>
-              ) : null}
-              {selectedPlace.type ? (
-                <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500">
-                  {selectedPlace.type}
-                </span>
-              ) : null}
-              {selectedPlace.country ? (
-                <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500">
-                  {selectedPlace.country}
-                </span>
-              ) : null}
-              {selectedPlace.state ? (
-                <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500">
-                  {selectedPlace.state}
-                </span>
-              ) : null}
-              {selectedPlace.postcode ? (
-                <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500">
-                  {selectedPlace.postcode}
-                </span>
-              ) : null}
-            </div>
 
             <div className="mt-4 flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">
               <span className="text-base leading-none text-slate-400">⌖</span>
@@ -182,15 +158,11 @@ export function AddressSearch() {
                 Lat {selectedPlace.latitude.toFixed(5)} • Lng {selectedPlace.longitude.toFixed(5)}
               </span>
             </div>
-
-            <p className="mt-3 break-words text-xs leading-5 text-slate-400">
-              {selectedPlace.displayName}
-            </p>
           </div>
         ) : null}
 
         {results.length > 0 ? (
-          <ul className="mt-3 max-h-80 overflow-auto rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
+          <ul className="mt-2">
             {results.map((place, index) => (
               <li key={place.id}>
                 <button
@@ -208,7 +180,7 @@ export function AddressSearch() {
                 </button>
               </li>
             ))}
-          </ul>
+          </ul> 
         ) : null}
       </div>
     </div>

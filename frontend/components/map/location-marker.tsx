@@ -2,6 +2,7 @@
 
 import { Marker, Popup } from "react-map-gl/maplibre";
 import type { GeocodedPlace } from "@/lib/geocoding";
+import { Button } from "../ui/button";
 
 export function LocationMarker({ place }: { place: GeocodedPlace }) {
   return (
@@ -20,10 +21,12 @@ export function LocationMarker({ place }: { place: GeocodedPlace }) {
         closeButton={false}
         closeOnClick={false}
         offset={24}
+        className="bg-white"
       >
-        <div className="max-w-64 rounded-xl bg-white px-3 py-2 text-slate-900 shadow-lg">
+        <div className="">
           <div className="text-sm font-semibold">{place.title}</div>
           <div className="mt-1 text-xs leading-5 text-slate-500">{place.subtitle}</div>
+          <Button place={place} />
         </div>
       </Popup>
     </>
